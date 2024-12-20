@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
+
 #include "push_swap.h"
 #include "ft_printf.h"
 
@@ -48,67 +50,76 @@ int	*push_swap(t_stack *a)
 	return (a->stack);
 }
 
-
-//Make the parsing to check duplicata and all my element is an int !
-
 int	check_duplicata(int nb, int *array, int len)
 {
 	int	i;
 
-	if (len > 0)
-	{
-		i = 0;
-		while (i < len)
-		{
-			if (nb == array[i])
-				return (1);
-			i++;
-		}
-	}
-	return (0);
-}
-
-int	parsing_check(char **args, int argc, int *stockage)
-{
-	int	i;
-	size_t	j;
-
 	i = 0;
-	while (i < argc)
+	while (i < len)
 	{
-		j = 0;
-		while (j < ft_strlen(args[i]))
-		{
-			if (ft_isdigit(args[i][j]) == 0 && args[i][j] != '-')
-				return (1);
-			j++;
-		}
-		stockage[i] = ft_atoi(args[i]);
-		if (check_duplicata(ft_atoi(args[i]), stockage, i))
-				return (1);
+		if (nb == array[i])
+			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int main(int argc, char **argv)
+bool is_str_number(const char* str)
 {
-	int	*stack_a;
-	t_stack		*a;
-
-	stack_a = malloc((argc - 1) * sizeof(int));
-	a = malloc(sizeof(t_stack));
-	if (parsing_check(++argv, --argc, stack_a) == 1 || argc == 0)
+	if (*str == '\0')
+		return (false);
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str != '\0')
 	{
-		ft_printf("ERROR : NUMBERS INPUTS");
+		if (!ft_isdigit(*str))
+			return (false);
+		str++;
+	}
+	return (true);
+}
+
+int	*parsing_check(const char **numbers, const int size)
+{
+	int		*result;
+	int		i;
+
+	result = malloc(size * sizeof(*result));
+	i = 0;
+	while (i < size)
+	{
+		if (!is_str_number(numbers[i]))
+		{
+			free(result);
+			return (NULL);
+		}
+		result[i] = ft_atoi(numbers[i]);
+		if (check_duplicata(result[i], result, i))
+		{
+			free(result);
+			return (NULL);
+		}
+		i++;
+	}
+	return (result);
+}
+
+int main(const int argc, const char **argv)
+{
+	int			*stack_a;
+	t_stack		a;
+	const int	size = argc - 1;
+
+	if (argc <= 1)
+		return 0;
+	stack_a = parsing_check(argv + 1, size);
+	if (stack_a == NULL)
+	{
+		ft_printf("Error\n");
 		return (1);
 	}
-
-
-	a->len = argc;
-	a->stack = stack_a;
-
-	push_swap(a);
-	free(a);
+	a.len = size;
+	a.stack = stack_a;
+	push_swap(&a);
 	return (0);
 }

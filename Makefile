@@ -3,16 +3,16 @@
 # =======================================
 
 CC			=	cc
-CFLAGS 		=	-Wall -Werror -Wextra $(INC_D)
 NAME		=	a.out
 
 # =======================================
 # Main Directories - Paths
 # =======================================
 
-SRCS		=				\
-				push_swap.c	\
-				operations.c
+SRCS		=					\
+				push_swap.c		\
+				operations.c	\
+				parsing.c
 
 OBJS		= $(SRCS:.c=.o)
 
@@ -21,6 +21,7 @@ OBJ_D		=	objs/
 INC_D		=	-Iincludes \
 				-ILibft/includes
 
+CFLAGS 		=	-Wall -Werror -Wextra $(INC_D)
 # =======================================
 # Objets Files
 # =======================================
@@ -35,7 +36,7 @@ SRCS	:= $(addprefix $(SRC_D), $(SRCS))
 $(NAME):$(OBJS)
 	$(MAKE) -C Libft
 	cp Libft/libft.a .
-	$(CC) $(CFLAGS) $< Libft/libft.a -o $@
+	$(CC) $(CFLAGS) $< Libft/libft.a -Iincludes/ -o $@
 
 $(OBJ_D)%.o: $(SRC_D)%.c | $(OBJ_D)
 	$(CC) $(CFLAGS) -c $< -o $@
