@@ -3,15 +3,12 @@
 # =======================================
 
 CC			=	cc
-CFLAGS 		=	-Wall -Werror -Wextra
+CFLAGS 		=	-Wall -Werror -Wextra $(INC_D)
 NAME		=	a.out
 
 # =======================================
 # Main Directories - Paths
 # =======================================
-
-LIBS		:=	ft_printf.h	libft.h push_swap.h
-LIBS_TARGET := Libft/libft.a
 
 SRCS		=				\
 				push_swap.c	\
@@ -31,27 +28,32 @@ INC_D		=	-Iincludes \
 
 .PHONY: all
 all: $(NAME)
-	$(MAKE) 
 
 OBJS	:= $(addprefix $(OBJ_D), $(OBJS))
 SRCS	:= $(addprefix $(SRC_D), $(SRCS))
 
 $(NAME):$(OBJS)
-	$(CC) $(CFLAGS) includes/libft.a $(OBJS) -o $@
+	$(MAKE) -C Libft
+	cp Libft/libft.a .
+	$(CC) $(CFLAGS) $< Libft/libft.a -o $@
 
 $(OBJ_D)%.o: $(SRC_D)%.c | $(OBJ_D)
-	$(CC) $(CFLAGS) $(INC_D) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
 	rm -rf $(OBJ_D)
+	$(MAKE) clean -C Libft
 
 .PHONY: fclean
 fclean: clean
 	rm -f $(NAME)
+	rm -f libft.a
+	$(MAKE) fclean -C Libft
 
 .PHONY: re
 re:	fclean all
+	$(MAKE) re -C Libft
 
 $(OBJ_D):
 	mkdir -p $(OBJ_D)

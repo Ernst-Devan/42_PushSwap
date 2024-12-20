@@ -45,53 +45,70 @@ int	*push_swap(t_stack *a)
 	b->stack = stack_b;
 
 	display_stack(a, b);
-
-	display_stack(a, b);
 	return (a->stack);
 }
 
 
 //Make the parsing to check duplicata and all my element is an int !
-int	parsing_check(char **args)
+
+int	check_duplicata(int nb, int *array, int len)
 {
-	
-	//while (i < ft_strlen(array))
-	//{
-		//if (is_number(args[0]) == 0)
-		//i++;
-	//}
 	int	i;
 
-	i = 0;
-	while (i < 10)
+	if (len > 0)
 	{
-		printf("%c", *args[i]);
-		i++;
+		i = 0;
+		while (i < len)
+		{
+			if (nb == array[i])
+				return (1);
+			i++;
+		}
 	}
-	(void)args;
 	return (0);
 }
 
+int	parsing_check(char **args, int argc, int *stockage)
+{
+	int	i;
+	size_t	j;
 
-//void	fill_stack(char *array)
-//{
-
-//}
+	i = 0;
+	while (i < argc)
+	{
+		j = 0;
+		while (j < ft_strlen(args[i]))
+		{
+			if (ft_isdigit(args[i][j]) == 0 && args[i][j] != '-')
+				return (1);
+			j++;
+		}
+		stockage[i] = ft_atoi(args[i]);
+		if (check_duplicata(ft_atoi(args[i]), stockage, i))
+				return (1);
+		i++;
+	}
+	return (0);
+}
 
 int main(int argc, char **argv)
 {
-	//t_stack		*a;
+	int	*stack_a;
+	t_stack		*a;
 
-	(void)argc;
-	//a = malloc(sizeof(t_stack));
-	parsing_check(++argv);
-	//int	stack_a[10] = {0,1,2,3,4,5,6,7,8,9};
+	stack_a = malloc((argc - 1) * sizeof(int));
+	a = malloc(sizeof(t_stack));
+	if (parsing_check(++argv, --argc, stack_a) == 1 || argc == 0)
+	{
+		ft_printf("ERROR : NUMBERS INPUTS");
+		return (1);
+	}
 
 
-	//a->len = 10;
-	//a->stack = stack_a;
+	a->len = argc;
+	a->stack = stack_a;
 
-	//push_swap(a);
-	//free(a);
+	push_swap(a);
+	free(a);
 	return (0);
 }
