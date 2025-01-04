@@ -9,10 +9,9 @@ NAME		=	a.out
 # Main Directories - Paths
 # =======================================
 
-SRCS		=					\
-				push_swap.c		\
-				operations.c	\
-				parsing.c
+SRCS		=	push_swap.c \
+				operations.c \
+				parsing.c \
 
 OBJS		= $(SRCS:.c=.o)
 
@@ -21,25 +20,25 @@ OBJ_D		=	objs/
 INC_D		=	-Iincludes \
 				-ILibft/includes
 
-CFLAGS 		=	-Wall -Werror -Wextra $(INC_D)
+CFLAGS 		=	-Wall -Werror -Wextra
+
 # =======================================
 # Objets Files
 # =======================================
 
-
 .PHONY: all
-all: $(NAME)
+all: 
+	$(MAKE) -C Libft
+	$(MAKE) $(NAME)
 
 OBJS	:= $(addprefix $(OBJ_D), $(OBJS))
 SRCS	:= $(addprefix $(SRC_D), $(SRCS))
 
 $(NAME):$(OBJS)
-	$(MAKE) -C Libft
-	cp Libft/libft.a .
-	$(CC) $(CFLAGS) $< Libft/libft.a -Iincludes/ -o $@
+	$(CC) $(CFLAGS) -Iincludes  $(OBJS) Libft/libft.a
 
-$(OBJ_D)%.o: $(SRC_D)%.c | $(OBJ_D)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_D)%.o: $(SRC_D)%.c Libft/libft.a | $(OBJ_D)
+	$(CC) $(CFLAGS) $(INC_D) -c $< -o $@
 
 .PHONY: clean
 clean:

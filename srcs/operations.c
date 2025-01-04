@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:28:44 by dernst            #+#    #+#             */
-/*   Updated: 2024/12/18 13:33:19 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2024/12/20 05:41:20 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sa(t_stack *a)
 {
 	int	temp;
-	printf("\nsa\n");
+	printf("sa\n");
 	if (a->len > 1)
 	{
 		temp = a->stack[0];
@@ -28,7 +28,7 @@ void	sb(t_stack *b)
 {
 	int	temp;
 	
-	printf("\nsb\n");
+	printf("sb\n");
 	if (b->len > 1)
 	{
 		temp = b->stack[0];
@@ -38,7 +38,7 @@ void	sb(t_stack *b)
 }
 void	ss(t_stack *a, t_stack *b)
 {
-	printf("\nss\n");
+	printf("ss\n");
 	sa(a);
 	sb(b);
 }
@@ -48,7 +48,7 @@ void	pa(t_stack *b, t_stack *a)
 	int	i;
 	int	j;
 
-	printf("\npa\n");
+	printf("pa\n");
 	if (b->len >= 1)
 	{
 		i = a->len;
@@ -77,7 +77,7 @@ void	pb(t_stack *a, t_stack *b)
 	int	i;
 	int	j;
 
-	printf("\npb\n");
+	printf("pb\n");
 	if (a->len >= 1)
 	{
 		i = b->len;
@@ -104,7 +104,7 @@ void	ra(t_stack *a)
 	int	i;
 	int temp;
 
-	printf("\nra\n");
+	printf("ra\n");
 	if (a->len > 1)
 	{
 		i = 0;
@@ -123,7 +123,7 @@ void	rb(t_stack *b)
 	int	i;
 	int temp;
 
-	printf("\nrb\n");
+	printf("rb\n");
 	if (b->len > 1)
 	{
 		i = 0;
@@ -139,7 +139,7 @@ void	rb(t_stack *b)
 
 void	rr(t_stack *a, t_stack *b)
 {
-	printf("\nrr\n");
+	printf("rr\n");
 	ra(a);
 	rb(b);
 }
@@ -149,7 +149,7 @@ void	rra(t_stack *a)
 	int	i;
 	int temp;
 
-	printf("\nrra\n");
+	printf("rra\n");
 	if (a->len > 1)
 	{
 		i = a->len - 1;
@@ -168,7 +168,7 @@ void	rrb(t_stack *b)
 	int	i;
 	int temp;
 
-	printf("\nrrb\n");
+	printf("rrb\n");
 	if (b->len > 1)
 	{
 		i = b->len - 1;
@@ -184,7 +184,7 @@ void	rrb(t_stack *b)
 
 void	rrr(t_stack *a, t_stack *b)
 {
-	printf("\nrrr\n");
+	printf("rrr\n");
 	rra(a);
 	rrb(b);
 }
