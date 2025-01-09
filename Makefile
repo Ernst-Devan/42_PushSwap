@@ -9,9 +9,11 @@ NAME		=	a.out
 # Main Directories - Paths
 # =======================================
 
-SRCS		=	push_swap.c \
+SRCS		=	push_swap.c  \
 				operations.c \
-				parsing.c \
+				parsing.c 	 \
+				binary.c 	 \
+				algorithm.c
 
 OBJS		= $(SRCS:.c=.o)
 

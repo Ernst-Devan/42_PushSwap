@@ -6,16 +6,17 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:28:44 by dernst            #+#    #+#             */
-/*   Updated: 2024/12/20 05:41:20 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/01/09 00:02:16 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
 
 void	sa(t_stack *a)
 {
 	int	temp;
-	printf("sa\n");
+	ft_printf("sa\n");
 	if (a->len > 1)
 	{
 		temp = a->stack[0];
@@ -28,7 +29,7 @@ void	sb(t_stack *b)
 {
 	int	temp;
 	
-	printf("sb\n");
+	ft_printf("sb\n");
 	if (b->len > 1)
 	{
 		temp = b->stack[0];
@@ -38,17 +39,18 @@ void	sb(t_stack *b)
 }
 void	ss(t_stack *a, t_stack *b)
 {
-	printf("ss\n");
+	ft_printf("ss\n");
 	sa(a);
 	sb(b);
 }
 
-void	pa(t_stack *b, t_stack *a)
+void	pa(t_stack *b, t_stack *a, int *count_action)
 {
 	int	i;
 	int	j;
 
-	printf("pa\n");
+	*count_action +=1;
+	ft_printf("pa\n");
 	if (b->len >= 1)
 	{
 		i = a->len;
@@ -72,12 +74,13 @@ void	pa(t_stack *b, t_stack *a)
 
 
 //Why did the 9 disapeared
-void	pb(t_stack *a, t_stack *b)
+void	pb(t_stack *a, t_stack *b, int *count_action)
 {
 	int	i;
 	int	j;
 
-	printf("pb\n");
+	*count_action += 1;
+	ft_printf("pb\n");
 	if (a->len >= 1)
 	{
 		i = b->len;
@@ -99,12 +102,13 @@ void	pb(t_stack *a, t_stack *b)
 	}
 }
 
-void	ra(t_stack *a)
+void	ra(t_stack *a, int *count_action)
 {
 	int	i;
 	int temp;
 
-	printf("ra\n");
+	*count_action +=1;
+	ft_printf("ra\n");
 	if (a->len > 1)
 	{
 		i = 0;
@@ -123,7 +127,7 @@ void	rb(t_stack *b)
 	int	i;
 	int temp;
 
-	printf("rb\n");
+	ft_printf("rb\n");
 	if (b->len > 1)
 	{
 		i = 0;
@@ -137,19 +141,19 @@ void	rb(t_stack *b)
 	}
 }
 
-void	rr(t_stack *a, t_stack *b)
-{
-	printf("rr\n");
-	ra(a);
-	rb(b);
-}
+//void	rr(t_stack *a, t_stack *b)
+//{
+//	ft_printf("rr\n");
+//	ra(a, );
+//	rb(b);
+//}
 
 void	rra(t_stack *a)
 {
 	int	i;
 	int temp;
 
-	printf("rra\n");
+	ft_printf("rra\n");
 	if (a->len > 1)
 	{
 		i = a->len - 1;
@@ -168,7 +172,7 @@ void	rrb(t_stack *b)
 	int	i;
 	int temp;
 
-	printf("rrb\n");
+	ft_printf("rrb\n");
 	if (b->len > 1)
 	{
 		i = b->len - 1;
@@ -184,7 +188,7 @@ void	rrb(t_stack *b)
 
 void	rrr(t_stack *a, t_stack *b)
 {
-	printf("rrr\n");
+	ft_printf("rrr\n");
 	rra(a);
 	rrb(b);
 }
