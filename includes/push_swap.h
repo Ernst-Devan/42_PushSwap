@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:31:12 by dernst            #+#    #+#             */
-/*   Updated: 2025/01/09 14:05:22 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 15:24:15 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,23 @@ typedef struct s_nb
 {
 	int		nb;
 	char	*binary;
-	int		size;
+	int		len;
+	int 	len_list;
 }	t_nb;
 
-int		insert_list_binaries(t_nb *list_nb, t_stack a);
+typedef struct limits
+{
+	int	min;
+	int	max;
+	int	border1;
+	int border2;
+	int border3;
+}	t_limits;
 
-void	check_bytes(t_nb *list_nb, t_stack *a, t_stack *b, int index_check, int *count_action);
-void	merge_stack(t_stack *a, t_stack *b, int *count_action);
-int find_index_nb(t_stack *a, t_nb *list_nb, int number_to_find);
+//Init.c
+void	init_limits(t_limits *limits);
+
+int	pre_sort(t_stack *a, t_stack *b);
 
 void	sa(t_stack *a);
 void	sb(t_stack *b);

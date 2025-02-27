@@ -3,7 +3,8 @@
 # =======================================
 
 CC			=	cc
-NAME		=	a.out
+NAME		=	push_swap
+CCFLAGS 		?=	-Wall -Werror -Wextra
 
 # =======================================
 # Main Directories - Paths
@@ -12,8 +13,10 @@ NAME		=	a.out
 SRCS		=	push_swap.c  \
 				operations.c \
 				parsing.c 	 \
-				binary.c 	 \
-				algorithm.c
+				algorithm.c	 \
+				pre_sort.c	 \
+				sort.c	 \
+				init.c
 
 OBJS		= $(SRCS:.c=.o)
 
@@ -22,7 +25,6 @@ OBJ_D		=	objs/
 INC_D		=	-Iincludes \
 				-ILibft/includes
 
-CFLAGS 		=	-Wall -Werror -Wextra
 
 # =======================================
 # Objets Files
@@ -37,10 +39,10 @@ OBJS	:= $(addprefix $(OBJ_D), $(OBJS))
 SRCS	:= $(addprefix $(SRC_D), $(SRCS))
 
 $(NAME):$(OBJS)
-	$(CC) $(CFLAGS) -Iincludes  $(OBJS) Libft/libft.a
+	$(CC) $(CCFLAGS) -Iincludes  $(OBJS) Libft/libft.a -o $@
 
 $(OBJ_D)%.o: $(SRC_D)%.c Libft/libft.a | $(OBJ_D)
-	$(CC) $(CFLAGS) $(INC_D) -c $< -o $@
+	$(CC) $(CCFLAGS) $(INC_D) -c $< -o $@
 
 .PHONY: clean
 clean:
@@ -59,3 +61,6 @@ re:	fclean all
 
 $(OBJ_D):
 	mkdir -p $(OBJ_D)
+
+debug:
+	$(MAKE) CCFLAGS=' '
