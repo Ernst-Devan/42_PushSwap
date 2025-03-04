@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:28:44 by dernst            #+#    #+#             */
-/*   Updated: 2025/01/09 00:02:16 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/04 21:29:15 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ss(t_stack *a, t_stack *b)
 void	pa(t_stack *b, t_stack *a, int *count_action)
 {
 	int	i;
-	int	j;
+	size_t	j;
 
 	*count_action +=1;
 	ft_printf("pa\n");
@@ -77,7 +77,7 @@ void	pa(t_stack *b, t_stack *a, int *count_action)
 void	pb(t_stack *a, t_stack *b, int *count_action)
 {
 	int	i;
-	int	j;
+	size_t	j;
 
 	*count_action += 1;
 	ft_printf("pb\n");
@@ -104,7 +104,7 @@ void	pb(t_stack *a, t_stack *b, int *count_action)
 
 void	ra(t_stack *a, int *count_action)
 {
-	int	i;
+	size_t	i;
 	int temp;
 
 	*count_action +=1;
@@ -124,7 +124,7 @@ void	ra(t_stack *a, int *count_action)
 
 void	rb(t_stack *b)
 {
-	int	i;
+	size_t	i;
 	int temp;
 
 	ft_printf("rb\n");

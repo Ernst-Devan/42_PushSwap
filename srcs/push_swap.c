@@ -20,7 +20,7 @@
 
 void	display_stack(t_stack a, t_stack b)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	printf("\na: ");
@@ -42,7 +42,7 @@ void	display_stack(t_stack a, t_stack b)
 
 int check_sorted(t_stack *a)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	while (i < a->len - 1)
@@ -54,22 +54,18 @@ int check_sorted(t_stack *a)
 	return (0);
 }
 
-int	*push_swap(t_stack *a, t_nb *list_nb)
+int	*push_swap(t_stack *a)
 { 
 	t_stack	*b;
 	int *stack_b;
 	int count_action;
-	stack_b = malloc(a->len * sizeof(int));
+	int i;
 
+	stack_b = malloc(a->len * sizeof(int));
 	b = malloc(sizeof(t_stack));
 	b->len = 0;
 	b->stack = stack_b;
-
-	int i;
-
 	i = 0;
-	int b_len;
-
 	count_action = 0;
 	
 // Pre SORT
@@ -93,7 +89,7 @@ int init(const int size, const char **start_argv)
 	list_nb = malloc(a.len * sizeof(t_nb));
 	if (!list_nb)
 		return (1);
-	push_swap(&a, list_nb);
+	push_swap(&a);
 	return (0);
 }
 

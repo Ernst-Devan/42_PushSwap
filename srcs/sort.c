@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:59:32 by dernst            #+#    #+#             */
-/*   Updated: 2025/02/27 16:02:13 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/04 17:40:46 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 
 
-int	sort(t_stack *a, t_stack *b)
-{
-	int count_action;;
+//int	sort(t_stack *a, t_stack *b)
+//{
+//	int count_action;;
 
-	count_action = 0;
+//	count_action = 0;
 
-	return (count_action);
-}
+//	return (count_action);
+//}

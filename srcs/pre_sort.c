@@ -6,68 +6,86 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:10:18 by dernst            #+#    #+#             */
-/*   Updated: 2025/02/27 21:24:01 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/04 21:56:13 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
+#include <math.h>
+
+
 
 void	display_limits(t_limits limits)
 {
-	ft_printf("|%d-", limits.min);
-	ft_printf("%d|", limits.border1);
-	ft_printf("%d-", limits.border1);
-	ft_printf("%d|", limits.border2);
-	ft_printf("%d-", limits.border2);
-	ft_printf("%d|", limits.border3);
-	ft_printf("%d-", limits.border3);
-	ft_printf("%d|", limits.max);
-}
-t_limits	find_limits(t_stack a)
-{
-	t_limits limits;
-	int	i;
+	size_t	i;
 
-	init_limits(&limits);
 	i = 0;
-	limits.max = a.stack[0];
-	limits.min = a.stack[0];
-	while (i < a.len)
+	while (i < limits.mem_len)
 	{
-		if (a.stack[i] > limits.max)
-			limits.max = a.stack[i];
-		if (a.stack[i] < limits.min)
-			limits.min = a.stack[i];
+		ft_printf("|%d|", limits.borders[i]);
 		i++;
 	}
-	limits.border2 = limits.max / 2;
-	limits.border1 = limits.border2 / 2;
-	limits.border3 = limits.border1 + limits.border2;
-	return (limits);
 }
 
-int	check_switch(t_stack *a, t_stack *b)
+void sort_limits(t_limits *limits)
 {
-	int	count_action;
+	size_t	i;
+	int	temp;
+	
+	temp = limits->borders[1];
+	i = 1;
+	while (i < limits->mem_len - 1)
+	{
+		limits->borders[i] = limits->borders[i + 1];
+		i++;
+	}
+	limits->borders[i] = temp;
+}
 
-	count_action = 0;
-	if (a->stack[0] > b->stack[0] || b->len <= 1)
+void	calculate_border(t_limits *limits)
+{
+	int	range;
+	int	border_size;
+	size_t	i;
+
+	range = limits->borders[1] - limits->borders[0];
+	border_size = range / (limits->mem_len - 1);
+	i = 2;
+	while(i < limits->mem_len)
 	{
-		pb(a, b, &count_action);
+		limits->borders[i] = limits->borders[0] + (border_size * (i - 1));
+		i++;
 	}
-	else
+
+	sort_limits(limits);
+}
+void	find_limits(t_stack a, t_limits *limits)
+{
+	int	min;
+	int max;
+	size_t	i;
+
+	i = 0;
+	max = a.stack[0];
+	min = a.stack[0];
+	while (i < a.len)
 	{
-		rb(b);
-		pb(a, b, &count_action);
-		rrb(b);
+		if (a.stack[i] > max)
+			max = a.stack[i];
+		if (a.stack[i] < min)
+			min = a.stack[i];
+		i++;
 	}
-	return (count_action);
+	limits->borders[0] = min;
+	limits->borders[1] = max;
+	limits->len = 2;
+	calculate_border(limits);
 }
 
 int	nb_inside_limits(t_stack a, int limit1, int limit2)
 {
-	int	i;
+	size_t	i;
 	int count;
 	
 	i = 0;
@@ -81,24 +99,32 @@ int	nb_inside_limits(t_stack a, int limit1, int limit2)
 	return (count);
 }
 
-int	parse_push_lim(t_stack *a, t_stack *b,int limit1, int limit2)
+int	parse_push_lim(t_stack *a, t_stack *b,int limit1, int limit2, int limit3, int limit4)
 {
-	int i;
+	size_t i;
 	int	count_action;
-	int len_a;
+	size_t len_a;
 	int remaining;
-	
+
 	count_action = 0;
 	i = 0;
 	len_a = a->len;
-	remaining = nb_inside_limits(*a, limit1, limit2);
+	remaining = nb_inside_limits(*a, limit1, limit2) + nb_inside_limits(*a, limit3, limit4);
 	while (i < len_a && remaining > 0)
 	{
 		if (a->stack[0] >= limit1 && a->stack[0] < limit2)
 		{
-			pb(a,b,&count_action);
+			pb(a, b, &count_action);
 			remaining--;
 		}
+		//if (a->stack[0] >= limit3 && a->stack[0] < limit4)
+		//{
+		//	if (b->len > 1)
+		//	{
+		//		pb(a,b,&count_action);
+		//		rrb(b);
+		//	}
+		//}
 		else
 			ra(a, &count_action);
 		i++;
@@ -109,14 +135,22 @@ int	parse_push_lim(t_stack *a, t_stack *b,int limit1, int limit2)
 int	pre_sort(t_stack *a, t_stack *b)
 {
 	int	count_action;
-	
-	count_action = 0;
 	t_limits limits;
-	limits = find_limits(*a);
-	count_action += parse_push_lim(a, b, limits.min, limits.border1);
-	count_action += parse_push_lim(a, b, limits.border1, limits.border2);
-	count_action += parse_push_lim(a, b, limits.border2, limits.border3);
-	count_action += parse_push_lim(a, b, limits.border3, limits.max);
+	size_t	i;
+	size_t j;
+
+	i = 0;
+	count_action = 0;
+	limits = init_limits(sqrt(a->len + 2) + 2); //! Math library not allowed
+	j = limits.mem_len;
+	find_limits(*a, &limits);
+	//display_limits(limits);
+	while(i < (limits.mem_len - 1))
+	{
+		count_action += parse_push_lim(a,b, limits.borders[i], limits.borders[i + 1], limits.borders[j - 1], limits.borders[j]);
+		i++;
+		j--;
+	}
 	return (count_action);
 }
 

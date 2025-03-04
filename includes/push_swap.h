@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:31:12 by dernst            #+#    #+#             */
-/*   Updated: 2025/02/27 15:24:15 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/03 21:08:30 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	*parsing_check(const char **numbers, const int size);
 
 typedef struct s_stack
 {
-	int	*stack;
-	int len;
+	int		*stack;
+	size_t	len;
 }	t_stack;
 
 typedef struct s_nb
@@ -34,15 +34,13 @@ typedef struct s_nb
 
 typedef struct limits
 {
-	int	min;
-	int	max;
-	int	border1;
-	int border2;
-	int border3;
+	int		*borders;
+	size_t	len;
+	size_t	mem_len;
 }	t_limits;
 
 //Init.c
-void	init_limits(t_limits *limits);
+t_limits	init_limits(size_t len);
 
 int	pre_sort(t_stack *a, t_stack *b);
 

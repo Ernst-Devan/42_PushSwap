@@ -15,7 +15,7 @@ SRCS		=	push_swap.c  \
 				parsing.c 	 \
 				algorithm.c	 \
 				pre_sort.c	 \
-				sort.c	 \
+				sort.c		 \
 				init.c
 
 OBJS		= $(SRCS:.c=.o)
@@ -39,7 +39,7 @@ OBJS	:= $(addprefix $(OBJ_D), $(OBJS))
 SRCS	:= $(addprefix $(SRC_D), $(SRCS))
 
 $(NAME):$(OBJS)
-	$(CC) $(CCFLAGS) -Iincludes  $(OBJS) Libft/libft.a -o $@
+	$(CC) $(CCFLAGS) -Iincludes  $(OBJS) -lm Libft/libft.a -o $@
 
 $(OBJ_D)%.o: $(SRC_D)%.c Libft/libft.a | $(OBJ_D)
 	$(CC) $(CCFLAGS) $(INC_D) -c $< -o $@
@@ -63,4 +63,4 @@ $(OBJ_D):
 	mkdir -p $(OBJ_D)
 
 debug:
-	$(MAKE) CCFLAGS=' '
+	$(MAKE) CCFLAGS='-g3'
