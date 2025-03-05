@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 17:31:12 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/03 21:08:30 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/04 22:17:28 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ t_limits	init_limits(size_t len);
 
 int	pre_sort(t_stack *a, t_stack *b);
 
-void	sa(t_stack *a);
-void	sb(t_stack *b);
-void	ss(t_stack *a, t_stack *b);
+void	sa(t_stack *a, int *count_action);
+void	sb(t_stack *b, int *count_action);
+void	ss(t_stack *a, t_stack *b, int *count_action);
 void	pa(t_stack *b, t_stack *a, int *count_action);
 void	pb(t_stack *a, t_stack *b, int *count_action);
 void	ra(t_stack *a, int *count_action);
-void	rb(t_stack *b);
-//void	rr(t_stack *a, t_stack *b);
+void	rb(t_stack *b, int *count_action);
+void	rr(t_stack *a, t_stack *b, int *count_action);
 void	rra(t_stack *a);
 void	rrb(t_stack *b);
 void	rrr(t_stack	*a, t_stack *b);

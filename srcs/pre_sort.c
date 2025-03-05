@@ -6,15 +6,13 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:10:18 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/04 21:56:13 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/05 13:46:14 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 #include <math.h>
-
-
 
 void	display_limits(t_limits limits)
 {
@@ -101,6 +99,10 @@ int	nb_inside_limits(t_stack a, int limit1, int limit2)
 
 int	parse_push_lim(t_stack *a, t_stack *b,int limit1, int limit2, int limit3, int limit4)
 {
+//	ft_printf("\nlimits1:%d\n", limit1);
+//	ft_printf("limits2:%d\n", limit2);
+//	ft_printf("limits3:%d\n", limit3);
+//	ft_printf("limits4:%d\n", limit4);
 	size_t i;
 	int	count_action;
 	size_t len_a;
@@ -117,14 +119,12 @@ int	parse_push_lim(t_stack *a, t_stack *b,int limit1, int limit2, int limit3, in
 			pb(a, b, &count_action);
 			remaining--;
 		}
-		//if (a->stack[0] >= limit3 && a->stack[0] < limit4)
-		//{
-		//	if (b->len > 1)
-		//	{
-		//		pb(a,b,&count_action);
-		//		rrb(b);
-		//	}
-		//}
+		else if (a->stack[0] >= limit3 && a->stack[0] < limit4)
+		{
+			pb(a,b,&count_action);
+			rb(b, &count_action);
+			remaining--;
+		}
 		else
 			ra(a, &count_action);
 		i++;
@@ -132,25 +132,31 @@ int	parse_push_lim(t_stack *a, t_stack *b,int limit1, int limit2, int limit3, in
 	return (count_action);
 }
 
+//! Need to start to the middle of the limits int* to go more in more near of the end and the start of the list
+//! Two case if limits->mem_len is even(pair) or odd(impair)
+//! If we use rb and ra also make a rr
+//! Sort better the presort
+//! Start to do the sort algo
 int	pre_sort(t_stack *a, t_stack *b)
 {
 	int	count_action;
 	t_limits limits;
-	size_t	i;
-	size_t j;
+	int	i;
+	size_t	j;
 
-	i = 0;
 	count_action = 0;
 	limits = init_limits(sqrt(a->len + 2) + 2); //! Math library not allowed
-	j = limits.mem_len;
+	i = (limits.mem_len / 2) - 1;
+	j = i + 1;
 	find_limits(*a, &limits);
-	//display_limits(limits);
-	while(i < (limits.mem_len - 1))
+	while(i >= 0)
 	{
-		count_action += parse_push_lim(a,b, limits.borders[i], limits.borders[i + 1], limits.borders[j - 1], limits.borders[j]);
-		i++;
-		j--;
+		if (!(limits.mem_len % 2) && i == 0)
+			count_action += parse_push_lim(a, b, limits.borders[0], limits.borders[1], limits.borders[0], limits.borders[0]);
+		else
+			count_action += parse_push_lim(a, b, limits.borders[i], limits.borders[i + 1], limits.borders[j], limits.borders[j + 1]);
+		i--;
+		j++;
 	}
 	return (count_action);
 }
-

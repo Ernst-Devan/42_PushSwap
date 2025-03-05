@@ -6,14 +6,14 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:28:44 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/04 21:29:15 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/04 22:16:06 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-void	sa(t_stack *a)
+void	sa(t_stack *a, int *count_action)
 {
 	int	temp;
 	ft_printf("sa\n");
@@ -23,9 +23,10 @@ void	sa(t_stack *a)
 		a->stack[0] = a->stack[1];
 		a->stack[1] = temp;
 	}
+	*count_action += 1;
 }
 
-void	sb(t_stack *b)
+void	sb(t_stack *b, int *count_action)
 {
 	int	temp;
 	
@@ -36,12 +37,14 @@ void	sb(t_stack *b)
 		b->stack[0] = b->stack[1];
 		b->stack[1] = temp;
 	}
+	*count_action += 1;
 }
-void	ss(t_stack *a, t_stack *b)
+void	ss(t_stack *a, t_stack *b, int *count_action)
 {
 	ft_printf("ss\n");
-	sa(a);
-	sb(b);
+	sa(a, 0);
+	sb(b, 0);
+	*count_action += 1;
 }
 
 void	pa(t_stack *b, t_stack *a, int *count_action)
@@ -122,7 +125,7 @@ void	ra(t_stack *a, int *count_action)
 	}
 }
 
-void	rb(t_stack *b)
+void	rb(t_stack *b, int *count_action)
 {
 	size_t	i;
 	int temp;
@@ -139,14 +142,16 @@ void	rb(t_stack *b)
 		}
 		b->stack[b->len - 1] = temp;
 	}
+	*count_action += 1;
 }
 
-//void	rr(t_stack *a, t_stack *b)
-//{
-//	ft_printf("rr\n");
-//	ra(a, );
-//	rb(b);
-//}
+void	rr(t_stack *a, t_stack *b, int *count_action)
+{
+	ft_printf("rr\n");
+	ra(a, 0);
+	rb(b, 0);
+	*count_action += 1;
+}
 
 void	rra(t_stack *a)
 {
