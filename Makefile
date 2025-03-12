@@ -4,7 +4,7 @@
 
 CC			=	cc
 NAME		=	push_swap
-CCFLAGS 		?=	-Wall -Werror -Wextra
+CCFLAGS 		?=	-Wall -Werror -Wextra -g3
 
 # =======================================
 # Main Directories - Paths
@@ -16,7 +16,8 @@ SRCS		=	push_swap.c  \
 				algorithm.c	 \
 				pre_sort.c	 \
 				sort.c		 \
-				init.c
+				init.c		 \
+				limits.c	 \
 
 OBJS		= $(SRCS:.c=.o)
 

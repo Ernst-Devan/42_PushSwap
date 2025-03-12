@@ -6,14 +6,14 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:28:44 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/04 22:16:06 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/10 11:20:14 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-void	sa(t_stack *a, int *count_action)
+void	sa(t_stack *a, size_t *count_action)
 {
 	int	temp;
 	ft_printf("sa\n");
@@ -26,7 +26,7 @@ void	sa(t_stack *a, int *count_action)
 	*count_action += 1;
 }
 
-void	sb(t_stack *b, int *count_action)
+void	sb(t_stack *b, size_t *count_action)
 {
 	int	temp;
 	
@@ -39,7 +39,7 @@ void	sb(t_stack *b, int *count_action)
 	}
 	*count_action += 1;
 }
-void	ss(t_stack *a, t_stack *b, int *count_action)
+void	ss(t_stack *a, t_stack *b, size_t *count_action)
 {
 	ft_printf("ss\n");
 	sa(a, 0);
@@ -47,7 +47,7 @@ void	ss(t_stack *a, t_stack *b, int *count_action)
 	*count_action += 1;
 }
 
-void	pa(t_stack *b, t_stack *a, int *count_action)
+void	pa(t_stack *b, t_stack *a, size_t *count_action)
 {
 	int	i;
 	size_t	j;
@@ -77,7 +77,7 @@ void	pa(t_stack *b, t_stack *a, int *count_action)
 
 
 //Why did the 9 disapeared
-void	pb(t_stack *a, t_stack *b, int *count_action)
+void	pb(t_stack *a, t_stack *b, size_t *count_action)
 {
 	int	i;
 	size_t	j;
@@ -105,13 +105,14 @@ void	pb(t_stack *a, t_stack *b, int *count_action)
 	}
 }
 
-void	ra(t_stack *a, int *count_action)
+void	ra(t_stack *a, size_t *count_action, size_t rr)
 {
 	size_t	i;
 	int temp;
 
-	*count_action +=1;
-	ft_printf("ra\n");
+	*count_action += 1;
+	if (!rr)
+		ft_printf("ra\n");
 	if (a->len > 1)
 	{
 		i = 0;
@@ -125,12 +126,13 @@ void	ra(t_stack *a, int *count_action)
 	}
 }
 
-void	rb(t_stack *b, int *count_action)
+void	rb(t_stack *b, size_t *count_action, size_t rr)
 {
 	size_t	i;
 	int temp;
 
-	ft_printf("rb\n");
+	if (!rr)
+		ft_printf("rb\n");
 	if (b->len > 1)
 	{
 		i = 0;
@@ -145,20 +147,14 @@ void	rb(t_stack *b, int *count_action)
 	*count_action += 1;
 }
 
-void	rr(t_stack *a, t_stack *b, int *count_action)
-{
-	ft_printf("rr\n");
-	ra(a, 0);
-	rb(b, 0);
-	*count_action += 1;
-}
 
-void	rra(t_stack *a)
+void	rra(t_stack *a, size_t *count_action, size_t rrr)
 {
 	int	i;
 	int temp;
 
-	ft_printf("rra\n");
+	if (!rrr)
+		ft_printf("rra\n");
 	if (a->len > 1)
 	{
 		i = a->len - 1;
@@ -170,14 +166,16 @@ void	rra(t_stack *a)
 		}
 		a->stack[0] = temp;
 	}
+	*count_action += 1;
 }
 
-void	rrb(t_stack *b)
+void	rrb(t_stack *b, size_t *count_action, size_t rrr)
 {
 	int	i;
 	int temp;
 
-	ft_printf("rrb\n");
+	if (!rrr)
+		ft_printf("rrb\n");
 	if (b->len > 1)
 	{
 		i = b->len - 1;
@@ -189,11 +187,21 @@ void	rrb(t_stack *b)
 		}
 		b->stack[0] = temp;
 	}
+	*count_action +=1;
 }
 
-void	rrr(t_stack *a, t_stack *b)
+void	rr(t_stack *a, t_stack *b, size_t *count_action)
+{
+	ft_printf("rr\n");
+	ra(a, 0, 1);
+	rb(b, 0, 1);
+	*count_action += 1;
+}
+
+void	rrr(t_stack *a, t_stack *b, size_t *count_action)
 {
 	ft_printf("rrr\n");
-	rra(a);
-	rrb(b);
+	rra(a, 0, 1);
+	rrb(b, 0, 1);
+	*count_action += 1;
 }

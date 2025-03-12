@@ -6,10 +6,11 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 02:22:11 by dernst            #+#    #+#             */
-/*   Updated: 2025/01/04 16:12:28 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/05 17:07:59 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "push_swap.h"
 #include <libft.h>
 #include <stdbool.h>
 
@@ -42,27 +43,24 @@ bool is_str_number(const char* str)
 	return (true);
 }
 
-int	*parsing_check(const char **numbers, const int size)
+void parsing_check(const char **numbers, t_stack *a)
 {
-	int		*result;
-	int		i;
+	size_t	i;
 
-	result = malloc(size * sizeof(*result));
 	i = 0;
-	while (i < size)
+	while (i < a->len)
 	{
 		if (!is_str_number(numbers[i]))
 		{
-			free(result);
-			return (NULL);
+			free(a->stack);
+			return;
 		}
-		result[i] = ft_atoi(numbers[i]);
-		if (check_duplicata(result[i], result, i))
+		a->stack[i] = ft_atoi(numbers[i]);
+		if (check_duplicata(a->stack[i], a->stack, i))
 		{
-			free(result);
-			return (NULL);
+			free(a->stack);
+			return;
 		}
 		i++;
 	}
-	return (result);
 }

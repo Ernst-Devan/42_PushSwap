@@ -1,36 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 14:53:12 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/05 15:27:23 by dernst           ###   ########lyon.fr   */
+/*   Created: 2025/03/11 11:17:01 by dernst            #+#    #+#             */
+/*   Updated: 2025/03/11 11:17:39 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
-t_stack		init_stack(size_t len)
+void	display_limits(t_limits limits)
 {
-	t_stack	stacks;
-	int *number;
+	size_t	i;
 
-	number  = malloc (len * sizeof(int));
-	stacks.len = 0;
-	stacks.stack = number;
-	return (stacks);
+	i = 0;
+	while (i < limits.mem_len)
+	{
+		ft_printf("|%d|", limits.borders[i]);
+		i++;
+	}
 }
 
-t_limits	init_limits(size_t len)
+void	display_stack(t_stack a, t_stack b)
 {
-	t_limits limits;
-	limits.mem_len = len;
-	limits.len = 0;
-	limits.borders = malloc(len * sizeof(limits.borders)); 
-	if (!limits.borders)
-		exit(1);
-	return (limits);
+	size_t	i;
+
+	i = 0;
+	printf("\na: ");
+	while (i < a.len)
+	{
+		printf("%d ", a.stack[i]);
+		i++;
+	}
+	i = 0;
+	printf("\nb: ");
+	while (i < b.len)
+	{
+		printf("%d ", b.stack[i]);
+		i++;
+	}
+	printf("\n");
 }
