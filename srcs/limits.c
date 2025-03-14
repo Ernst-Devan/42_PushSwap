@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:35:10 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/11 11:17:35 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/14 14:17:58 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void	calculate_border(t_limits *limits)
 	size_t	i;
 
 	range = limits->borders[1] - limits->borders[0];
-	limits->border_size = range / (limits->mem_len - 1);
+	if (limits->mem_len - 1 == 0)
+		limits->border_size = range / (limits->mem_len);
+	else
+		limits->border_size = range / (limits->mem_len - 1);
 	i = 2;
 	while(i < limits->mem_len)
 	{

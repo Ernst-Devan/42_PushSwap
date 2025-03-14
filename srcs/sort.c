@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:59:32 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/12 22:30:22 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/14 13:59:57 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@ size_t bottom_sort(t_stack *a, t_stack *b, int *temp, int *cost)
 	size_t	count_action;
 
 	count_action = 0;
-	if (a->stack[a->len] == (int)a->len -1)
-		*temp = 0;
-	if (a->stack[a->len - 1] == a->stack[0] - 1)
-	{
-		rra(a, &count_action, 0);
-	}
 	if	(b->stack[0] > *temp && b->stack[0] != a->stack[0] - 1)
 	{
 		*temp = b->stack[0];
@@ -34,22 +28,24 @@ size_t bottom_sort(t_stack *a, t_stack *b, int *temp, int *cost)
 	return (count_action);
 }
 
-size_t	check_rrb(t_stack *b, int nb)
+int	check_rrb(t_stack *b, int nb)
 {
 	size_t	i;
-	size_t	cost;
+	int	cost;
 
 	i = b->len;
 	cost = 0;
 	while (i > 0)
 	{
-		i--;
-		cost++;
 		if(b->stack[i] == nb)
 			return(cost);
+		cost++;
+		i--;
 	}
 	return (0);
 }
+
+//Eco instruction with rr when we use bottom_sort and cost != 0
 
 size_t	push_best(t_stack *b, t_stack *a, int cost, size_t rotate, int	*temp_reverse)
 {
@@ -61,8 +57,6 @@ size_t	push_best(t_stack *b, t_stack *a, int cost, size_t rotate, int	*temp_reve
 		while (cost > 0)
 		{
 			count_action += bottom_sort(a, b, temp_reverse, &cost);
-			if (b->stack[0] == a->stack[0] - 1)
-				break;
 			rb(b, &count_action, 0);
 			cost--;
 		}
@@ -72,15 +66,11 @@ size_t	push_best(t_stack *b, t_stack *a, int cost, size_t rotate, int	*temp_reve
 		while(cost > 0)
 		{
 			count_action += bottom_sort(a, b, temp_reverse, &cost);
-			if (b->stack[0] == a->stack[0] - 1)
-				break;
 			rrb(b, &count_action, 0);
 			cost--;
 		}
 	}
-	if (a->stack[a->len - 1] == a->stack[0] - 1)
-		rra(a, &count_action, 0);
-	else
+	if (b->stack[0] == a->stack[0] - 1)
 		pa(b, a, &count_action);
 	return (count_action);
 }
@@ -97,20 +87,32 @@ size_t find_next(t_stack *a, t_stack *b, int *temp_reverse)
 	cost1 = 0;
 	count_action = 0;
 	temp = b->stack[0];
-	while (i < b->len)	//! Modify by the remaining size of limits or
+	if (a->stack[a->len - 1] == a->stack[0] - 1)
 	{
-		if (b->stack[i] > temp)
-		{
-			temp = b->stack[i];
-			cost1 = i;
-		}
-		i++;
+		rra(a, &count_action, 0);
+		if (a->stack[a->len - 1] == (int)((a->len + b->len) - 1))
+			*temp_reverse = 0;
+		else
+			*temp_reverse = a->stack[a->len - 1];
 	}
-	cost2 = check_rrb(b, temp);
-	if (cost1 < cost2)
-		count_action += push_best(b, a, cost1, 0, temp_reverse);
 	else
-		count_action += push_best(b, a, cost2, 1, temp_reverse);
+	{
+		while (i < b->len)	//! Modify by the remaining size of limits or
+		{
+			if (b->stack[i] == a->stack[0] - 1)
+			{
+				temp = b->stack[i];
+				cost1 = i;
+				break;
+			}
+			i++;
+		}
+		cost2 = check_rrb(b, temp);
+		if (cost1 < cost2)
+			count_action += push_best(b, a, cost1, 0, temp_reverse);
+		else
+			count_action += push_best(b, a, cost2, 1, temp_reverse);
+	}
 	return (count_action);
 }
 

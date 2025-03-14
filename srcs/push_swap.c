@@ -13,7 +13,7 @@
 
 // Don't forget to manage the error report for each function if a malloc failed for exemple or other potentiel error
 // Check all malloc and set each one to NULL
-//! If the args contain less than 5 number instruction not print inside the console i dont know why
+
 //! Check no problem with 0 / 1 / 2  if 0 or 1 or chained already sorted do anything
 //! Well read the mandatory part
 
@@ -69,23 +69,31 @@ void	simplify(t_stack *a)
 	free(a->stack);
 	a->stack = temp;
 }
+
+size_t	check_sorted_input(t_stack *a)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < a->len)
+	{
+		if (a->stack[i] > a->stack[i + 1])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	*push_swap(t_stack *a)
 { 
 	t_stack	b;
-	int i;
 	size_t count_action;
 
 	b = init_stack(a->len);
-	i = 0;
 	count_action = 0;
-	
 	simplify(a);
-// Pre SORT
 	count_action += pre_sort(a, &b);
-
-// Final SORT
 	count_action += sort(a, &b);
-
 	return (a->stack);
 }
 

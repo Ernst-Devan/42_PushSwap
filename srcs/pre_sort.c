@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:10:18 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/11 13:36:53 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/14 14:10:07 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ size_t	pre_sort(t_stack *a, t_stack *b)
 	int			j;
 	int			i;
 
-	limits = init_limits(sqrt(a->len + 2) + 2); //! Math library not allowed
+	limits = init_limits(sqrt(a->len)); //! Math library not allowed
 	count_action = 0;
 	i = (limits.mem_len / 2) - 1;
 	j = i + 1;
