@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 18:07:56 by ernstdevan        #+#    #+#             */
-/*   Updated: 2024/12/15 18:35:19 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 11:12:41 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*ft_itoa(int n);
 size_t	ft_intlen(long int n);
 size_t	ft_intlen_base(int n, int base);
 size_t	ft_uintlen_base(unsigned long int n, size_t base);
+int		ft_sqrt(int nb);
 
 	//FT_ALLOC
 	//=======================================
@@ -107,6 +108,6 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 	//FT_PRINTF
 	//=======================================
-int	ft_printf(const char *format, ...);
+int		ft_printf(const char *format, ...);
 
 #endif

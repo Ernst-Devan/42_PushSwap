@@ -6,21 +6,20 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 14:35:10 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/14 14:17:58 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 13:24:35 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
-void sort_limits(t_limits *limits)
+void	sort_limits(t_limits *limits)
 {
-	size_t	i;
+	int	i;
 	int	temp;
-	
+
 	temp = limits->borders[1];
 	i = 1;
-	while (i < limits->mem_len - 1)
+	while (i < limits->len - 1)
 	{
 		limits->borders[i] = limits->borders[i + 1];
 		i++;
@@ -30,8 +29,8 @@ void sort_limits(t_limits *limits)
 
 void	calculate_border(t_limits *limits)
 {
-	int	range;
-	size_t	i;
+	int		range;
+	int		i;
 
 	range = limits->borders[1] - limits->borders[0];
 	if (limits->mem_len - 1 == 0)
@@ -39,46 +38,50 @@ void	calculate_border(t_limits *limits)
 	else
 		limits->border_size = range / (limits->mem_len - 1);
 	i = 2;
-	while(i < limits->mem_len)
+	while (i < limits->mem_len)
 	{
-		limits->borders[i] = limits->borders[0] + (limits->border_size * (i - 2));
+		limits->borders[i] = limits->borders[0]
+			+ (limits->border_size * (i - 2));
 		i++;
 	}
+	limits->len = i;
 	sort_limits(limits);
 }
+
 void	find_limits(t_stack a, t_limits *limits)
 {
-	int	min;
-	int max;
-	size_t	i;
+	int		min;
+	int		max;
+	int		i;
 
 	i = 0;
-	max = a.stack[0];
-	min = a.stack[0];
-	while (i < a.len)
+	max = a.st[0];
+	min = a.st[0];
+	while (i < (int)a.l)
 	{
-		if (a.stack[i] > max)
-			max = a.stack[i];
-		if (a.stack[i] < min)
-			min = a.stack[i];
+		if (a.st[i] > max)
+			max = a.st[i];
+		if (a.st[i] < min)
+			min = a.st[i];
 		i++;
 	}
 	limits->borders[0] = min;
 	limits->borders[1] = max;
-	limits->len = 2;
 	calculate_border(limits);
 }
 
-size_t	nb_inside_limits(t_stack a, int limit1, int limit2, int a_len)
+size_t	nb_inside_limits(t_stack a, int *lim, int a_len)
 {
 	size_t	i;
 	size_t	count;
-	
+
 	i = 0;
 	count = 0;
-	while (i < a.len)
+	while (i < a.l)
 	{
-		if (((a.stack[i] >= limit1 && a.stack[i] < limit2) && a.stack[i] < (a_len - 2)))
+		if (((a.st[i] >= lim[0] && a.st[i] < lim[1] && a.st[i] < (a_len - 2))))
+			count++;
+		if (((a.st[i] >= lim[2] && a.st[i] < lim[3] && a.st[i] < (a_len - 2))))
 			count++;
 		i++;
 	}

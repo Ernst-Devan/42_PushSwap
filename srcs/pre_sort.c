@@ -6,103 +6,121 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:10:18 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/14 14:10:07 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 13:26:13 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <math.h>
 #include "push_swap.h"
 
 void	three_sorting(t_stack *a, int len)
 {
-	size_t	count_action;
-
-	count_action = 0;
-	
-	if (a->stack[1] == (len - 2) && a->stack[0] == (len - 0))
+	if ((a->st[1] == len - 1 && a->st[0] == len))
+		sa(a);
+	if (len >= 2)
 	{
-		rra(a ,&count_action, 0);
-		rra(a ,&count_action, 0);
+		if (a->st[1] == len - 2 && a->st[2] == len)
+			sa(a);
+		if (a->st[1] == len - 2 && a->st[0] == len)
+		{
+			rra(a, 0);
+			rra(a, 0);
+		}
+		if (a->st[0] == len - 2 && a->st[1] == len)
+		{
+			sa(a);
+			ra(a, 0);
+		}
+		if (a->st[2] == (len - 2) && a->st[1] == len)
+			rra(a, 0);
+		if ((a->st [1] == (len - 2) && a->st[2] == (len - 1)))
+		{
+			sa(a);
+			rra(a, 0);
+		}
 	}
-	else if (a->stack[1] == (len - 2) && a->stack[2] == (len - 0))
-		sa(a, &count_action);
-	else if ((a->stack[0] == (len - 0) && a->stack[1] == (len - 1)) && a->stack[2] == (len - 2))
-	{
-		ra(a, &count_action, 0);
-		sa(a, &count_action);
-	}
-	else if (a->stack[0] == (len - 2) && a->stack[1] == (len - 0))
-	{
-		sa(a, &count_action);
-		ra(a, &count_action, 0);
-	}
-	else if ((a->stack [1] == (len - 2) && a->stack[2] == (len - 1)))
-	{
-		sa(a, &count_action);
-		rra(a, &count_action, 0);
-	}
-	else if ((a->stack[2] == (len - 2) || (a->stack[1] == len - 1 && a->stack[0] == len)))
-		rra(a ,&count_action, 0);
 }
 
-size_t	parse_push_lim(t_stack *a, t_stack *b,int limit1, int limit2, int limit3, int limit4)
+void	parse_push_lim(t_sort *list, int *lim)
 {
-	size_t	i;
-	size_t	count_action;
-	int		remaining;
 	int		a_temp;
+	int		remaining;
 
-	a_temp = a->len + b->len;
-	i = 0;
-	count_action = 0;
-	remaining = nb_inside_limits(*a, limit1, limit2, a_temp) + nb_inside_limits(*a, limit3, limit4, a_temp);
-	while (remaining > 0 && a->len > 3)
+	a_temp = list->a.l + list->b.l;
+	remaining = nb_inside_limits(list->a, lim, a_temp);
+	while (remaining > 0 && list->a.l > 3)
 	{
-		if (a->stack[0] >= a_temp - 3)
+		if (list->a.st[0] >= a_temp - 3)
+			ra(&list->a, 0);
+		else if (list->a.st[0] >= lim[0] && list->a.st[0] < lim[1])
 		{
-			ra(a, &count_action, 0);
-		}
-		else if (a->stack[0] >= limit1 && a->stack[0] < limit2)
-		{
-			pb(a, b, &count_action);
+			pb(&list->a, &list->b);
 			remaining--;
 		}
-		else if (a->stack[0] >= limit3 && a->stack[0] < limit4)
+		else if (list->a.st[0] >= lim[2] && list->a.st[0] < lim[3])
 		{
-			pb(a,b,&count_action);
-			rb(b, &count_action, 0);
+			pb(&list->a, &list->b);
+			rb(&list->b, 0);
 			remaining--;
 		}
 		else
-			ra(a, &count_action, 0);
-		i++;
+			ra(&list->a, 0);
 	}
-	i = 0;
-	return (count_action);
+	free(lim);
 }
 
-size_t	pre_sort(t_stack *a, t_stack *b)
+int	*fill_lim(t_limits limits, t_sort *list, int j, int i)
+{
+	int	*lim;
+
+	lim = malloc(4 * sizeof(int));
+	if (!lim)
+	{
+		free(limits.borders);
+		exit_free(&list->a, &list->b, 1);
+	}
+	if (!(limits.len % 2) && i == 0)
+	{
+		lim[0] = limits.borders[0];
+		lim[1] = limits.borders[0];
+		lim[2] = limits.borders[0];
+		lim[3] = limits.borders[1];
+	}
+	else
+	{
+		lim[0] = limits.borders[j];
+		lim[1] = limits.borders[j + 1];
+		lim[2] = limits.borders[i];
+		lim[3] = limits.borders[i + 1];
+	}
+	return (lim);
+}
+
+void	pre_sort(t_sort *list)
 {
 	t_limits	limits;
-	size_t		count_action;
 	int			j;
 	int			i;
 
-	limits = init_limits(sqrt(a->len)); //! Math library not allowed
-	count_action = 0;
-	i = (limits.mem_len / 2) - 1;
-	j = i + 1;
-	find_limits(*a, &limits);
-	while(i >= 0)
+	if (list->a.l < 10)
+		init_limits(&limits, ft_sqrt(list->a.l));
+	else
+		init_limits(&limits, ft_sqrt(list->a.l) - 2);
+	if (limits.mem_len != 0)
 	{
-		if (!(limits.mem_len % 2) && i == 0)
-			count_action += parse_push_lim(a, b, limits.borders[0], limits.borders[0], limits.borders[0], limits.borders[1]);
-		else
-			count_action += parse_push_lim(a, b, limits.borders[j], limits.borders[j + 1], limits.borders[i], limits.borders[i + 1]);
-		i--;
-		j++;
+		find_limits(list->a, &limits);
+		i = (limits.len / 2) - 1;
+		j = i + 1;
+		while (i >= 0)
+		{
+			if (!(limits.len % 2) && i == 0)
+				parse_push_lim(list, fill_lim(limits, list, j, i));
+			else
+				parse_push_lim(list, fill_lim(limits, list, j, i));
+			i--;
+			j++;
+		}
 	}
-	three_sorting(a, (int)(a->len + b->len - 1));
-	return (count_action);
+	three_sorting(&list->a, (int)(list->a.l + list->b.l) - 1);
+	free(limits.borders);
 }

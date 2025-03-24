@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 02:22:11 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/05 17:07:59 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 13:26:04 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ int	check_duplicata(int nb, int *array, int len)
 	return (0);
 }
 
-bool is_str_number(const char* str)
+bool	is_str_number(const char *str)
 {
 	if (*str == '\0')
 		return (false);
-	if (*str == '-' || *str == '+')
+	if (*str == '-' || (*str == '+'))
 		str++;
+	if (*str == '\0')
+		return (false);
 	while (*str != '\0')
 	{
 		if (!ft_isdigit(*str))
@@ -43,24 +45,22 @@ bool is_str_number(const char* str)
 	return (true);
 }
 
-void parsing_check(const char **numbers, t_stack *a)
+void	parsing_check(const char **numbers, t_stack *a)
 {
 	size_t	i;
+	int		overflow;
 
 	i = 0;
-	while (i < a->len)
+	overflow = 0;
+	while (i < a->l)
 	{
+		a->st[i] = ps_atoi(numbers[i], &overflow);
 		if (!is_str_number(numbers[i]))
-		{
-			free(a->stack);
-			return;
-		}
-		a->stack[i] = ft_atoi(numbers[i]);
-		if (check_duplicata(a->stack[i], a->stack, i))
-		{
-			free(a->stack);
-			return;
-		}
+			exit_free(a, NULL, 1);
+		if (overflow == 1)
+			exit_free(a, NULL, 1);
+		if (check_duplicata(a->st[i], a->st, i) == 1)
+			exit_free(a, NULL, 1);
 		i++;
 	}
 }

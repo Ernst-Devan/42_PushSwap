@@ -6,41 +6,51 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:17:01 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/11 11:17:39 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 13:27:11 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
 
-void	display_limits(t_limits limits)
+static	int	check_overflow(int n, int sign, int last)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < limits.mem_len)
+	if (n >= 214748364)
 	{
-		ft_printf("|%d|", limits.borders[i]);
-		i++;
+		if (n > 214748364)
+			return (1);
+		else if (sign == -1 && last > 8)
+			return (1);
+		else if (sign == 1 && last > 7)
+			return (1);
 	}
+	return (0);
 }
 
-void	display_stack(t_stack a, t_stack b)
+int	ps_atoi(const char *nptr, int *overflow)
 {
 	size_t	i;
+	long	result;
+	int		sign;
 
 	i = 0;
-	printf("\na: ");
-	while (i < a.len)
+	result = 0;
+	sign = 1;
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		printf("%d ", a.stack[i]);
+		if (nptr[i] == '-')
+			sign = -1;
 		i++;
 	}
-	i = 0;
-	printf("\nb: ");
-	while (i < b.len)
+	while (nptr[i] >= 48 && nptr[i] <= 57)
 	{
-		printf("%d ", b.stack[i]);
+		if (check_overflow(result, sign, nptr[i] - '0') == 1)
+			*overflow = 1;
+		result *= 10;
+		result += nptr[i] - '0';
 		i++;
 	}
-	printf("\n");
+	return (result * sign);
 }

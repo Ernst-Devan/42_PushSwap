@@ -88,7 +88,8 @@ FT_PUT_SRC =					\
 FT_INT_SRC =					\
 	ft_intlen.c					\
 	ft_intlen_base.c			\
-	ft_uintlen_base.c
+	ft_uintlen_base.c			\
+	ft_sqrt.c
 
 # =======================================
 # Source Files - Convert Function

@@ -6,128 +6,100 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:59:32 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/14 13:59:57 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/20 13:26:53 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "push_swap.h"
 
-size_t bottom_sort(t_stack *a, t_stack *b, int *temp, int *cost)
+void	bottom_sort(t_stack *a, t_stack *b, int *temp, int *cost)
 {
-	size_t	count_action;
-
-	count_action = 0;
-	if	(b->stack[0] > *temp && b->stack[0] != a->stack[0] - 1)
+	if (a->st[a->l - 1] == (int)((a->l + b->l) - 1))
+		*temp = 0;
+	else
+		*temp = a->st[a->l - 1];
+	if (b->st[0] > *temp && b->st[0] != a->st[0] - 1)
 	{
-		*temp = b->stack[0];
-		pa(b, a, &count_action);
-		ra(a, &count_action, 0);
+		*temp = b->st[0];
+		pa(b, a);
+		ra(a, 0);
 		*cost -= 1;
 	}
-	return (count_action);
 }
 
 int	check_rrb(t_stack *b, int nb)
 {
-	size_t	i;
+	int	i;
 	int	cost;
 
-	i = b->len;
-	cost = 0;
+	i = b->l - 1;
+	cost = 1;
 	while (i > 0)
 	{
-		if(b->stack[i] == nb)
-			return(cost);
+		if (b->st[i] == nb)
+			return (cost);
 		cost++;
 		i--;
 	}
-	return (0);
+	return (cost);
 }
 
-//Eco instruction with rr when we use bottom_sort and cost != 0
-
-size_t	push_best(t_stack *b, t_stack *a, int cost, size_t rotate, int	*temp_reverse)
+void	push_best(t_sort *list, int cost, size_t rotate, int	*temp_reverse)
 {
-	size_t	count_action;
-	
-	count_action = 0;
 	if (rotate == 0)
 	{
 		while (cost > 0)
 		{
-			count_action += bottom_sort(a, b, temp_reverse, &cost);
-			rb(b, &count_action, 0);
+			bottom_sort(&list->a, &list->b, temp_reverse, &cost);
+			rb(&list->b, 0);
 			cost--;
 		}
 	}
 	else
 	{
-		while(cost > 0)
+		while (cost > 0)
 		{
-			count_action += bottom_sort(a, b, temp_reverse, &cost);
-			rrb(b, &count_action, 0);
+			bottom_sort(&list->a, &list->b, temp_reverse, &cost);
+			rrb(&list->b, 0);
 			cost--;
 		}
 	}
-	if (b->stack[0] == a->stack[0] - 1)
-		pa(b, a, &count_action);
-	return (count_action);
+	if (list->b.st[0] == list->a.st[0] - 1)
+		pa(&list->b, &list->a);
 }
 
-size_t find_next(t_stack *a, t_stack *b, int *temp_reverse)
+void	find_next(t_sort *list, int *temp_reverse)
 {
-	size_t	i;
+	int		cost1;
 	int		temp;
-	size_t	count_action;
-	int cost1;
-	int	cost2;
+	int		cost2;
 
-	i = 0;
 	cost1 = 0;
-	count_action = 0;
-	temp = b->stack[0];
-	if (a->stack[a->len - 1] == a->stack[0] - 1)
-	{
-		rra(a, &count_action, 0);
-		if (a->stack[a->len - 1] == (int)((a->len + b->len) - 1))
-			*temp_reverse = 0;
-		else
-			*temp_reverse = a->stack[a->len - 1];
-	}
+	temp = list->b.st[0];
+	if (list->a.st[list->a.l - 1] == list->a.st[0] - 1)
+		rra(&list->a, 0);
 	else
 	{
-		while (i < b->len)	//! Modify by the remaining size of limits or
+		while ((size_t)cost1 < list->b.l)
 		{
-			if (b->stack[i] == a->stack[0] - 1)
-			{
-				temp = b->stack[i];
-				cost1 = i;
-				break;
-			}
-			i++;
+			if (list->b.st[cost1] == list->a.st[0] - 1)
+				break ;
+			cost1++;
 		}
-		cost2 = check_rrb(b, temp);
+		temp = list->b.st[cost1];
+		cost2 = check_rrb(&list->b, temp);
 		if (cost1 < cost2)
-			count_action += push_best(b, a, cost1, 0, temp_reverse);
+			push_best(list, cost1, 0, temp_reverse);
 		else
-			count_action += push_best(b, a, cost2, 1, temp_reverse);
+			push_best(list, cost2, 1, temp_reverse);
 	}
-	return (count_action);
 }
 
-
-size_t	sort(t_stack *a, t_stack *b)
+void	sort(t_sort *list)
 {
-	size_t	count_action;
-	int	temp_reverse;
+	int		temp_reverse;
 
-	
 	temp_reverse = 0;
-	count_action = 0;
-	while (b->len > 0)
-	{
-		count_action += find_next(a, b, &temp_reverse);
-	}
-	return (count_action);
+	while (list->b.l > 0)
+		find_next(list, &temp_reverse);
 }

@@ -6,11 +6,9 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 21:31:24 by ernstdevan        #+#    #+#             */
-/*   Updated: 2024/12/20 03:13:11 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/19 11:01:05 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <errno.h> // TODO
 
 #include "libft.h"
 
