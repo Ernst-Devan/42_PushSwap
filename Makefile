@@ -61,8 +61,9 @@ fclean: clean
 	$(MAKE) fclean -C Libft
 
 .PHONY: re
-re:	fclean all
+re:	fclean
 	$(MAKE) re -C Libft
+	$(MAKE)
 
 $(OBJ_D):
 	mkdir -p $(OBJ_D)

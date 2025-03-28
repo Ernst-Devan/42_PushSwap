@@ -6,12 +6,11 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:17:01 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/20 13:27:11 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/28 10:37:56 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 static	int	check_overflow(int n, int sign, int last)
 {

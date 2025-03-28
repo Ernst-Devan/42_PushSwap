@@ -6,12 +6,11 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:19:59 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/20 13:23:28 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/28 10:40:38 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdlib.h>
 #include <limits.h>
 
 void	fill_stack(const int size, const char **start_argv)
@@ -21,7 +20,7 @@ void	fill_stack(const int size, const char **start_argv)
 
 	init_list(&list);
 	if (init_stack(&a, size) == 1)
-		exit_free(&a, NULL, 1);
+		exit_free(&a, NULL, 0);
 	a.l = size;
 	list.a = a;
 	parsing_check(start_argv, &a);

@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:10:18 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/20 13:26:13 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/28 10:38:30 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	*fill_lim(t_limits limits, t_sort *list, int j, int i)
 	if (!lim)
 	{
 		free(limits.borders);
-		exit_free(&list->a, &list->b, 1);
+		exit_free(&list->a, &list->b, 0);
 	}
 	if (!(limits.len % 2) && i == 0)
 	{
@@ -103,9 +103,9 @@ void	pre_sort(t_sort *list)
 	int			i;
 
 	if (list->a.l < 10)
-		init_limits(&limits, ft_sqrt(list->a.l));
+		init_limits(list, &limits, ft_sqrt(list->a.l));
 	else
-		init_limits(&limits, ft_sqrt(list->a.l) - 2);
+		init_limits(list, &limits, ft_sqrt(list->a.l) - 2);
 	if (limits.mem_len != 0)
 	{
 		find_limits(list->a, &limits);

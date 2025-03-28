@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:48:07 by dernst            #+#    #+#             */
-/*   Updated: 2025/03/20 13:26:23 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2025/03/28 10:38:22 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	push_swap(t_sort *list)
 	if (check_sorted_input(&list->a) == 1)
 		exit_free(&list->a, &list->b, 0);
 	if (init_stack(&b, list->a.l) == 1)
-		exit_free(&list->a, &list->b, 1);
+		exit_free(&list->a, &list->b, 0);
 	list->b = b;
 	if (simplify(&list->a) == 1)
-		exit_free(&list->a, &list->b, 1);
+		exit_free(&list->a, &list->b, 0);
 	pre_sort(list);
 	sort(list);
 	exit_free(&list->a, &list->b, 0);
